@@ -1,63 +1,115 @@
 # Football Predictor — Match Data Explorer
 
 ## 1. Propósito del Sistema
-El Football Predictor es una herramienta de **exploración de datos y visualización** diseñada para identificar y filtrar partidos de fútbol de las principales ligas europeas. El sistema se enfoca en detectar escenarios específicos, como enfrentamientos entre "Goliath vs David" (equipos en el Top 4 contra equipos en la parte baja de la tabla), permitiendo una análisis rápido de estadísticas clave sin depender exclusivamente de modelos de predicción complejos.
+
+El Football Predictor es una herramienta de **exploración de datos y visualización** diseñada para identificar y filtrar partidos de fútbol de las principales ligas europeas. El sistema detecta escenarios "Goliath vs David" (equipos Top 4 contra equipos en la parte baja de la tabla), mostrando estadísticas de goles reales calculadas desde historial de partidos.
 
 ## 2. Arquitectura y Flujo de Datos
-1.  **Scraper**: Obtiene estadísticas de equipos (promedio de goles a favor/en contra) y cuotas de múltiples casas de apuestas.
-2.  **AI Market Engine**: 
-    *   Calcula Lambdas ($\lambda$) por partido.
-    *   Genera matriz de probabilidad Poisson.
-    *   Normaliza cuotas de mercado (mediana) para obtener la probabilidad implícita.
-    *   Calcula el **Edge** (ventaja absoluta) y **Edge Ratio** (ventaja relativa).
-3.  **API**: Expone los resultados procesados en formato JSON.
-4.  **Frontend**: Interfaz visual para visualizar las recomendaciones.
 
-## 3. Parámetros de Configuración (.env)
-*   `API_FOOTBALL_KEY`: Tu clave de API de [api-football.com](https://www.api-football.com/).
-*   `HOME_ADVANTAGE_FACTOR`: (Default: `1.0`). Factor multiplicador para la ventaja de localía. Recomendado: `1.10` a `1.15` si deseas sesgar hacia el local.
-*   `API_PORT`: Puerto para la API (Default: `8880`).
-*   `FRONTEND_PORT`: Puerto para la web (Default: `3330`).
+```
+Scraper → matches.json → Engine → matches.json → API (FastAPI) → Frontend (nginx)
+```
 
-## 4. Gestión del Bankroll Inicial
-El sistema no gestiona el dinero directamente, pero recomienda una estrategia de **Unit Betting** o **Kelly Criterion** basada en el `edge_ratio`.
-*   **Bankroll Sugerido**: 100 Unidades.
-*   **Stake por apuesta**:
-    *   `low_edge`: 0.5 Unidades.
-    *   `medium_edge`: 1.0 Unidades.
-    *   `high_edge`: 2.0 Unidades.
+1. **Scraper**: Obtiene partidos programados, standings y historial desde [football-data.org](https://api.football-data.org/v4/). Calcula promedios de goles por equipo (home/away).
+2. **Engine**: Añade flags `is_goliath_vs_david` y `goliath_team` basándose en rankings.
+3. **API**: Expone `matches.json` en `http://localhost:8880/matches` con filtros por liga, goliath, y localía.
+4. **Frontend**: Dashboard visual servido por nginx en `http://localhost:3330`.
 
-## 5. Guía de Inicio Rápido (Paso a Paso)
+## 3. Fuente de Datos
 
-### Paso 1: Configurar Entorno
-Crea un archivo `.env` en la raíz del proyecto con tu clave:
+| Atributo | Valor |
+|----------|-------|
+| API | [football-data.org v4](https://api.football-data.org/v4/) |
+| Autenticación | Header `X-Auth-Token` |
+| Variable de entorno | `API_FOOTBALL_TOKEN` |
+| Rate limit (free tier) | 10 requests/minuto |
+
+### Ligas disponibles
+
+| Código | Liga |
+|--------|------|
+| `PL` | Premier League |
+| `PD` | La Liga |
+| `SA` | Serie A |
+| `BL1` | Bundesliga |
+| `FL1` | Ligue 1 |
+
+### Endpoints utilizados
+
+| Endpoint | Propósito |
+|----------|-----------|
+| `GET /v4/matches?status=SCHEDULED` | Partidos programados |
+| `GET /v4/competitions/{code}/standings` | Tabla de posiciones |
+| `GET /v4/competitions/{code}/matches?status=FINISHED` | Historial para estadísticas |
+
+## 4. Configuración (.env)
+
 ```env
-API_FOOTBALL_KEY=tu_clave_aqui
-HOME_ADVANTAGE_FACTOR=1.0
+API_FOOTBALL_TOKEN=tu_token_de_football_data_org
+HOME_ADVANTAGE_FACTOR=1.15
+API_PORT=8880
+FRONTEND_PORT=3330
 ```
 
-### Paso 2: Levantar el Sistema
-Ejecuta el siguiente comando en la terminal:
+## 5. Guía de Inicio Rápido
+
+### Paso 1: Configurar `.env`
+Crear archivo `.env` en la raíz con tu token de [football-data.org](https://www.football-data.org/client/register).
+
+### Paso 2: Levantar el sistema
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
-Este comando construirá las imágenes y ejecutará los servicios en orden: Scraper -> Engine -> API -> Frontend.
 
-### Paso 3: Monitorear el Proceso
-1.  El **Scraper** descargará los partidos de hoy (esto puede tardar 1-2 minutos debido al rate limiting).
-2.  El **Engine** procesará los datos y generará `predictions_latest.json`.
-3.  La **API** estará disponible en `http://localhost:8880/predictions`.
+Los servicios se ejecutan en orden automático:
+1. **Scraper** → descarga datos reales (~1 minuto)
+2. **Engine** → procesa flags Goliath vs David
+3. **API** → disponible en `http://localhost:8880/matches`
+4. **Frontend** → disponible en `http://localhost:3330`
 
-### Paso 4: Visualizar Recomendaciones
-Accede a `http://localhost:3330` para ver el dashboard de recomendaciones. Prioriza aquellas con `is_recommendation: true` y `high_edge`.
+### Paso 3: Verificar
+```bash
+curl http://localhost:8880/matches | python3 -m json.tool
+```
 
-## 6. Criterios de Selección Estrictos
-Para que un partido sea recomendado, debe cumplir:
-1.  **Datos completos**: Estadísticas de goles reales disponibles.
-2.  **Calidad de Mercado**: Mínimo de **3 bookmakers** diferentes para calcular la mediana.
-3.  **Ventaja Matemática**: 
-    *   `Edge > 0.05` ($5\%$)
-    *   `Edge Ratio > 0.10` ($10\%$)
+## 6. Estructura de Datos (matches.json)
+
+```json
+{
+    "fixture_id": 537147,
+    "date": "2026-04-27T16:30:00Z",
+    "league_id": "SA",
+    "league_name": "Serie A",
+    "home_team": "Cagliari Calcio",
+    "away_team": "Atalanta BC",
+    "rank_home": 16,
+    "rank_away": 7,
+    "home_avg_goals_for": 1.06,
+    "home_avg_goals_against": 1.12,
+    "away_avg_goals_for": 1.25,
+    "away_avg_goals_against": 0.94,
+    "matchday": 34,
+    "status": "TIMED",
+    "is_goliath_vs_david": false,
+    "goliath_team": null
+}
+```
+
+## 7. Criterios Goliath vs David
+
+Un partido es clasificado como "Goliath vs David" cuando:
+- `rank_home ≤ 4` AND `rank_away ≥ 14`, ó
+- `rank_away ≤ 4` AND `rank_home ≥ 14`
+
+## 8. Reglas del Sistema
+
+- ❌ Prohibido mock data
+- ❌ Prohibido inventar valores
+- ✅ Si falta información crítica → el partido se descarta
+- ✅ Logging en cada request a la API
+- ✅ Rate limiting: 7s entre requests
 
 ---
-**El sistema está configurado y listo para pruebas iniciales.**
+**Fuente exclusiva: football-data.org v4**
+
+docker compose down && rm -f shared/data/*.json && docker compose up --build -d scraper && docker compose up --build -d api engine frontend

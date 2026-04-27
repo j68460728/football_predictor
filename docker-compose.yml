@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   scraper:
     build: ./services/scraper
@@ -13,6 +11,9 @@ services:
     build: ./services/engine
     volumes:
       - ./shared/data:/app/shared/data
+    depends_on:
+      scraper:
+        condition: service_completed_successfully
     restart: "no"
 
   api:
@@ -21,6 +22,9 @@ services:
       - "8880:8880"
     volumes:
       - ./shared/data:/app/shared/data
+    depends_on:
+      engine:
+        condition: service_completed_successfully
     restart: always
 
   frontend:
@@ -29,4 +33,7 @@ services:
       - "3330:80"
     volumes:
       - ./frontend:/usr/share/nginx/html
+    depends_on:
+      api:
+        condition: service_started
     restart: always
