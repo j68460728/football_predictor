@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Predictor - Data Explorer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --accent-color: #38bdf8;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar */
+        aside {
+            width: 300px;
+            background: rgba(15, 23, 42, 0.9);
+            border-right: 1px solid var(--glass-border);
+            padding: 2rem;
+            position: fixed;
+            height: 100vh;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        select, input[type="checkbox"] {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            color: white;
+            border-radius: 0.5rem;
+            outline: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .checkbox-group input {
+            width: auto;
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 300px;
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .matches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .match-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            backdrop-filter: blur(5px);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .match-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-color);
+        }
+
+        .match-card.goliath {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(30, 41, 59, 0.7) 100%);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .league-badge {
+            font-size: 0.75rem;
+            background: rgba(56, 189, 248, 0.2);
+            color: var(--accent-color);
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .team-info {
+            flex: 1;
+            text-align: center;
+        }
+
+        .team-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .rank {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .vs {
+            padding: 0 1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .badge-goliath {
+            background: #fbbf24;
+            color: #000;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        /* Loading & No Results */
+        .loading {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 4rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <aside>
+        <h1>Football Predictor</h1>
+        
+        <div class="filter-group">
+            <label for="league-filter">League</label>
+            <select id="league-filter">
+                <option value="">All Leagues</option>
+                <option value="39">Premier League</option>
+                <option value="140">La Liga</option>
+                <option value="135">Serie A</option>
+                <option value="78">Bundesliga</option>
+                <option value="61">Ligue 1</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label class="checkbox-group">
+                <input type="checkbox" id="goliath-filter">
+                <span>Goliath vs David Only</span>
+            </label>
+        </div>
+
+        <div class="filter-group">
+            <label for="location-filter">Goliath Location</label>
+            <select id="location-filter">
+                <option value="">Any</option>
+                <option value="true">Goliath at Home</option>
+                <option value="false">Goliath Away</option>
+            </select>
+        </div>
+
+        <button id="apply-filters" style="width: 100%; padding: 0.75rem; background: var(--accent-color); border: none; color: black; font-weight: 700; border-radius: 0.5rem; cursor: pointer; margin-top: 1rem;">
+            Update Data
+        </button>
+    </aside>
+
+    <main>
+        <div id="matches-container" class="matches-grid">
+            <div class="loading">Select filters and click "Update Data" to fetch matches.</div>
+        </div>
+    </main>
+
+    <script>
+        const API_URL = 'http://localhost:8880';
+
+        async function fetchMatches() {
+            const league = document.getElementById('league-filter').value;
+            const goliath = document.getElementById('goliath-filter').checked;
+            const home = document.getElementById('location-filter').value;
+
+            const container = document.getElementById('matches-container');
+            container.innerHTML = '<div class="loading">Fetching data...</div>';
+
+            let url = `${API_URL}/matches?`;
+            if (league) url += `league=${league}&`;
+            if (goliath) url += `goliath=true&`;
+            if (home !== "") url += `home=${home}&`;
+
+            try {
+                const response = await fetch(url);
+                const matches = await response.json();
+                renderMatches(matches);
+            } catch (error) {
+                container.innerHTML = `<div class="loading" style="color: #ef4444;">Error connecting to API. Is it running?</div>`;
+            }
+        }
+
+        function renderMatches(matches) {
+            const container = document.getElementById('matches-container');
+            if (matches.length === 0) {
+                container.innerHTML = '<div class="loading">No matches found for current filters.</div>';
+                return;
+            }
+
+            container.innerHTML = matches.map(match => `
+                <div class="match-card ${match.is_goliath_vs_david ? 'goliath' : ''}">
+                    <div class="league-badge">${match.league_name}</div>
+                    <div class="match-header">
+                        <div class="team-info">
+                            <div class="team-name">
+                                ${match.home_team}
+                                ${match.goliath_team === 'home' ? '<span class="badge-goliath">GOLIATH</span>' : ''}
+                            </div>
+                            <div class="rank">Rank: ${match.rank_home}</div>
+                        </div>
+                        <div class="vs">VS</div>
+                        <div class="team-info">
+                            <div class="team-name">
+                                ${match.away_team}
+                                ${match.goliath_team === 'away' ? '<span class="badge-goliath">GOLIATH</span>' : ''}
+                            </div>
+                            <div class="rank">Rank: ${match.rank_away}</div>
+                        </div>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Home Avg For</div>
+                            <div class="stat-value">${match.home_avg_goals_for.toFixed(2)}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Away Avg For</div>
+                            <div class="stat-value">${match.away_avg_goals_for.toFixed(2)}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Home Avg Against</div>
+                            <div class="stat-value">${match.home_avg_goals_against.toFixed(2)}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Away Avg Against</div>
+                            <div class="stat-value">${match.away_avg_goals_against.toFixed(2)}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('apply-filters').addEventListener('click', fetchMatches);
+        
+        // Initial load
+        window.onload = fetchMatches;
+    </script>
+</body>
+</html>

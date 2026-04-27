@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  scraper:
+    build: ./services/scraper
+    volumes:
+      - ./shared/data:/app/shared/data
+      - ./.env:/app/.env
+    restart: "no" # Standalone task
+
+  engine:
+    build: ./services/engine
+    volumes:
+      - ./shared/data:/app/shared/data
+    restart: "no" # Standalone task
+
+  api:
+    build: ./services/api
+    ports:
+      - "8880:8880"
+    volumes:
+      - ./shared/data:/app/shared/data
+    restart: always
+
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "3330:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    restart: always
