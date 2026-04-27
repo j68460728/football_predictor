@@ -20,6 +20,7 @@ def get_matches(
     league: Optional[str] = Query(None),
     type: Optional[str] = Query(None),
     competition: Optional[str] = Query(None),
+    date: Optional[str] = Query(None),
     goliath: Optional[bool] = Query(None),
     goliath_home: Optional[bool] = Query(None),
     goliath_away: Optional[bool] = Query(None)
@@ -45,6 +46,9 @@ def get_matches(
     if league is not None:
         filtered_matches = [m for m in filtered_matches if m.get('league_id') == league]
         
+    if date is not None:
+        filtered_matches = [m for m in filtered_matches if m.get('date', '').startswith(date)]
+        
     if goliath is not None:
         filtered_matches = [m for m in filtered_matches if m.get('is_goliath_vs_david') == goliath]
         
@@ -56,6 +60,51 @@ def get_matches(
 
     print(f"Serving {len(filtered_matches)} filtered matches")
     return filtered_matches
+
+@app.get("/corners")
+def get_corners(
+    league: Optional[str] = Query(None),
+    type: Optional[str] = Query(None),
+    date: Optional[str] = Query(None)
+):
+    CORNERS_PATH = "/app/shared/data/corners_predictions.json"
+    if not os.path.exists(DATA_PATH) or not os.path.exists(CORNERS_PATH):
+        return []
+        
+    try:
+        with open(DATA_PATH, "r") as f:
+            matches = json.load(f)
+        with open(CORNERS_PATH, "r") as f:
+            predictions = json.load(f)
+    except Exception:
+        return []
+        
+    # Build a lookup map for predictions
+    pred_map = {p['fixture_id']: p for p in predictions}
+    
+    results = []
+    for m in matches:
+        fid = m.get('fixture_id')
+        if fid in pred_map:
+            # Merge match info with prediction
+            result = {
+                "fixture_id": fid,
+                "date": m.get('date'),
+                "league_name": m.get('league_name'),
+                "competition_type": m.get('competition_type'),
+                "home_team": m.get('home_team'),
+                "away_team": m.get('away_team'),
+                "prediction": pred_map[fid]
+            }
+            
+            # Apply filters
+            if type and result['competition_type'] != type: continue
+            if league and result['league_name'] != league: continue
+            if date and not result['date'].startswith(date): continue
+            
+            results.append(result)
+            
+    return results
 
 @app.get("/health")
 def health():

@@ -45,363 +45,101 @@
             border-right: 1px solid var(--border);
             height: 100vh;
             position: fixed;
-            left: 0;
-            top: 0;
-            display: flex;
-            flex-direction: column;
-            padding: 1.5rem;
-            z-index: 100;
+            left: 0; top: 0;
+            display: flex; flex-direction: column;
+            padding: 1.5rem; z-index: 100;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 2.5rem;
-            padding: 0.5rem;
-        }
-        .logo-icon {
-            font-size: 1.5rem;
-            background: linear-gradient(135deg, var(--accent), #79c0ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .logo-text {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--text-bright);
-            letter-spacing: -0.5px;
-        }
+        .logo { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2.5rem; padding: 0.5rem; }
+        .logo-icon { font-size: 1.5rem; background: linear-gradient(135deg, var(--accent), #79c0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-text { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.25rem; color: var(--text-bright); letter-spacing: -0.5px; }
         .logo-text span { color: var(--accent); }
 
-        .sidebar-section {
-            margin-bottom: 2rem;
-        }
-        .section-label {
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-            display: block;
-        }
+        .sidebar-section { margin-bottom: 2rem; }
+        .section-label { font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; display: block; }
 
-        .filter-group {
-            margin-bottom: 1.25rem;
-        }
-        .filter-group label {
-            display: block;
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
-        }
+        .filter-group { margin-bottom: 1.25rem; }
+        .filter-group label { display: block; font-size: 0.85rem; margin-bottom: 0.5rem; color: var(--text-main); }
 
-        select, input[type="text"] {
-            width: 100%;
-            background: var(--bg-deep);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 0.6rem 0.75rem;
-            color: var(--text-bright);
-            font-size: 0.9rem;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        select:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px var(--accent-glow);
-        }
+        select { width: 100%; background: var(--bg-deep); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.75rem; color: var(--text-bright); font-size: 0.9rem; outline: none; }
 
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            cursor: pointer;
-            user-select: none;
-            font-size: 0.9rem;
-        }
-        .checkbox-group input {
-            width: 16px;
-            height: 16px;
-            accent-color: var(--accent);
-        }
+        .checkbox-group { display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-size: 0.9rem; }
+        .checkbox-group input { width: 16px; height: 16px; accent-color: var(--accent); }
 
         .btn-apply {
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 0.85rem;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: transform 0.1s, filter 0.2s, box-shadow 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
+            background: var(--accent); color: white; border: none; border-radius: 8px; padding: 0.85rem; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 1rem;
         }
-        .btn-apply:hover {
-            filter: brightness(1.1);
-            box-shadow: 0 4px 12px var(--accent-glow);
-        }
-        .btn-apply:active { transform: scale(0.98); }
-
-        .btn-apply.loading span { display: none; }
-        .btn-apply.loading .spinner { display: block; }
-
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            display: none;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .btn-apply:hover { filter: brightness(1.1); box-shadow: 0 4px 12px var(--accent-glow); }
 
         /* Main Area */
-        main {
-            margin-left: var(--sidebar-width);
-            flex: 1;
-            padding: 2rem;
-            max-width: 1400px;
-        }
+        main { margin-left: var(--sidebar-width); flex: 1; padding: 2rem; max-width: 1400px; }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 2rem;
-        }
-        .header-left h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--text-bright);
-            margin-bottom: 0.5rem;
-        }
-        .header-left p {
-            color: var(--text-dim);
-            font-size: 0.95rem;
-        }
+        header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; }
+        .header-left h1 { font-family: 'Outfit', sans-serif; font-size: 1.75rem; font-weight: 700; color: var(--text-bright); margin-bottom: 0.5rem; }
+        .header-left p { color: var(--text-dim); font-size: 0.95rem; }
 
-        .status-pill {
-            background: var(--glass);
-            backdrop-filter: blur(8px);
-            border: 1px solid var(--border);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--success);
-            box-shadow: 0 0 8px var(--success);
-        }
+        .tabs { display: flex; gap: 2rem; margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); }
+        .tab { padding: 1rem 0.5rem; color: var(--text-dim); cursor: pointer; font-weight: 600; position: relative; transition: 0.2s; }
+        .tab.active { color: var(--accent); }
+        .tab.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background: var(--accent); }
+
+        .status-pill { background: var(--bg-card); padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid var(--border); display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px var(--success); }
         .dot.pulse { animation: pulse 2s infinite; }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.5); opacity: 0.5; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
 
         /* League Groups */
-        .league-group {
-            margin-bottom: 3rem;
-            animation: fadeIn 0.5s ease forwards;
-        }
+        .league-group { margin-bottom: 3rem; animation: fadeIn 0.5s ease forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .league-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.25rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border);
-        }
-        .league-flag { font-size: 1.5rem; }
-        .league-name {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: var(--text-bright);
-        }
-        .match-count-badge {
-            background: var(--border);
-            color: var(--text-dim);
-            font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 10px;
-            font-weight: 700;
-        }
+        .league-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+        .league-name { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 1.1rem; color: var(--text-bright); }
+        .match-count-badge { background: var(--border); color: var(--text-dim); font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 10px; font-weight: 700; }
 
-        /* Match Cards */
-        .matches-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-            gap: 1.5rem;
-        }
+        /* Grid */
+        .matches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 1.5rem; }
 
+        /* Match Card - Original Style */
         .match-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.25rem;
-            position: relative;
-            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-            overflow: hidden;
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 1.25rem; position: relative; transition: all 0.2s; overflow: hidden;
         }
-        .match-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-        }
-        .match-card.goliath {
-            border-left: 4px solid var(--amber);
-        }
+        .match-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+        .match-card.goliath { border-left: 4px solid var(--amber); }
         .match-card.goliath::after {
-            content: 'GOLIATH VS DAVID';
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            font-size: 0.6rem;
-            font-weight: 800;
-            color: var(--amber);
-            background: var(--amber-dim);
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            letter-spacing: 0.5px;
+            content: 'GOLIATH VS DAVID'; position: absolute; top: 0.75rem; right: 0.75rem;
+            font-size: 0.6rem; font-weight: 800; color: var(--amber); background: var(--amber-dim);
+            padding: 0.2rem 0.5rem; border-radius: 4px; letter-spacing: 0.5px;
         }
 
-        .card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.25rem;
-        }
-        .matchday {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-dim);
-            text-transform: uppercase;
-        }
-        .match-type {
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            background: rgba(255,255,255,0.05);
-        }
-        .match-type.cup { color: var(--amber); background: var(--amber-dim); }
+        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+        .matchday { font-size: 0.75rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; }
+        .match-type { font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; background: rgba(255,255,255,0.05); }
 
-        .teams-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        .team-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .team-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .team-name {
-            font-weight: 600;
-            font-size: 1.05rem;
-            color: var(--text-bright);
-        }
-        .goliath-tag {
-            font-size: 0.65rem;
-            font-weight: 800;
-            color: var(--bg-deep);
-            background: var(--amber);
-            padding: 0.1rem 0.4rem;
-            border-radius: 3px;
-            margin-left: 0.5rem;
-        }
-        .rank-pill {
-            font-size: 0.8rem;
-            color: var(--text-dim);
-        }
-        .rank-pill strong { color: var(--text-main); }
+        .teams-container { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+        .team-row { display: flex; justify-content: space-between; align-items: center; }
+        .team-name { font-weight: 600; font-size: 1.05rem; color: var(--text-bright); display: flex; align-items: center; gap: 0.5rem; }
+        .goliath-tag { font-size: 0.65rem; font-weight: 800; color: var(--bg-deep); background: var(--amber); padding: 0.1rem 0.4rem; border-radius: 3px; }
+        .rank-pill { font-size: 0.8rem; color: var(--text-dim); }
 
-        .stats-box {
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            padding: 1rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
+        .stats-box { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
         .stat-group { display: flex; flex-direction: column; gap: 0.4rem; }
         .stat-title { font-size: 0.7rem; color: var(--text-dim); font-weight: 700; text-transform: uppercase; }
         .stat-line { display: flex; justify-content: space-between; font-size: 0.85rem; }
         .stat-val { font-weight: 600; color: var(--text-bright); }
 
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            font-size: 0.8rem;
-            color: var(--text-dim);
-        }
+        /* Corners - Intelligence Style */
+        .pace-bar-bg { height: 6px; background: var(--border); border-radius: 3px; margin-top: 0.5rem; overflow: hidden; }
+        .pace-bar-fill { height: 100%; background: var(--accent); border-radius: 3px; }
+        .early-game-box { background: var(--amber-dim); border: 1px solid rgba(255, 171, 112, 0.2); border-radius: 8px; padding: 0.75rem; margin-top: 1rem; }
+        .inferred-tag { font-size: 0.6rem; background: var(--amber); color: var(--bg-deep); padding: 0.1rem 0.3rem; border-radius: 3px; font-weight: 800; }
 
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            border: 1px dashed var(--border);
-        }
-        .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
-        .empty-state h3 { color: var(--text-bright); margin-bottom: 0.5rem; }
-        .empty-state p { color: var(--text-dim); }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem; color: var(--text-dim); }
 
-        /* Status Bar Mobile/Small */
-        .status-msg {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 1rem 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            z-index: 1000;
-            animation: slideIn 0.3s ease-out;
-        }
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .status-msg { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--bg-card); border: 1px solid var(--border); padding: 1rem 1.5rem; border-radius: var(--radius); z-index: 1000; display: flex; align-items: center; gap: 1rem; }
 
-        /* Responsive */
-        @media (max-width: 1000px) {
-            :root { --sidebar-width: 0px; }
-            aside { transform: translateX(-100%); }
-            main { margin-left: 0; padding: 1.5rem; }
-        }
+        @media (max-width: 1000px) { aside { transform: translateX(-100%); } main { margin-left: 0; } }
     </style>
 </head>
 <body>
@@ -423,11 +161,18 @@
                 </select>
             </div>
             <div class="filter-group">
-                <label>Specific competition</label>
+                <label>League</label>
                 <select id="league-filter">
-                    <option value="">All Competitions</option>
+                    <option value="">All Leagues</option>
                 </select>
             </div>
+        </div>
+
+        <div class="sidebar-section">
+            <span class="section-label">Schedule</span>
+            <select id="date-filter">
+                <option value="">Full Week</option>
+            </select>
         </div>
 
         <div class="sidebar-section">
@@ -448,183 +193,126 @@
             </div>
         </div>
 
-        <button class="btn-apply" onclick="fetchMatches()" id="btn-apply">
-            <div class="spinner"></div>
+        <button class="btn-apply" onclick="fetchData()" id="btn-apply">
             <span>Apply Analysis</span>
         </button>
-
-        <div style="margin-top: auto; font-size: 0.75rem; color: var(--text-dim); border-top: 1px solid var(--border); padding-top: 1.5rem;">
-            <p>Football Data v4 Pipeline</p>
-            <p style="margin-top: 0.5rem;">&copy; 2026 Antigravity System</p>
-        </div>
     </aside>
 
     <main>
         <header>
             <div class="header-left">
-                <h1>Match Analysis</h1>
-                <p id="date-label">Today's Forecast</p>
+                <h1>Analysis Hub</h1>
+                <p id="status-text">Today's Forecast</p>
             </div>
             <div class="status-pill">
                 <div class="dot pulse" id="status-dot"></div>
-                <span id="status-text">Connected to API</span>
+                <span id="conn-text">Connected</span>
             </div>
         </header>
 
-        <div id="matches-container">
-            <!-- Content dynamically populated -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('matches')" id="tab-matches">Match Forecast</div>
+            <div class="tab" onclick="switchTab('corners')" id="tab-corners">Corners Intelligence</div>
         </div>
+
+        <div id="content-area"></div>
     </main>
 
     <div id="notification-area"></div>
 
     <script>
         const API_URL = `${window.location.protocol}//${window.location.hostname}:8880`;
-        let allMatchesData = [];
+        let currentTab = 'matches';
+        let allLeagues = [];
 
-        const FLAGS = {
-            'PL': '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'PD': '🇪🇸', 'SA': '🇮🇹', 'BL1': '🇩🇪', 'FL1': '🇫🇷',
-            'PPL': '🇵🇹', 'DED': '🇳🇱', 'CL': '🏆', 'default': '⚽'
-        };
-
-        function showNotification(msg, type = 'success') {
-            const area = document.getElementById('notification-area');
-            const el = document.createElement('div');
-            el.className = `status-msg`;
-            el.style.borderLeft = `4px solid var(--${type === 'error' ? 'error' : 'success'})`;
-            el.innerHTML = `<span>${type === 'error' ? '❌' : '✅'}</span> <span>${msg}</span>`;
-            area.appendChild(el);
-            setTimeout(() => el.remove(), 4000);
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            fetchData();
         }
 
-        function updateCompetitionDropdown() {
-            const type = document.getElementById('type-filter').value;
-            const leagueSelect = document.getElementById('league-filter');
-            const current = leagueSelect.value;
-            
-            leagueSelect.innerHTML = '<option value="">All Competitions</option>';
-            
-            const comps = [...new Set(allMatchesData
-                .filter(m => !type || m.competition_type === type)
-                .map(m => m.league_name))]
-                .sort();
-            
-            comps.forEach(name => {
-                const opt = document.createElement('option');
-                opt.value = name;
-                opt.textContent = name;
-                if (name === current) opt.selected = true;
-                leagueSelect.appendChild(opt);
-            });
-        }
-
-        async function fetchMatches() {
+        async function fetchData() {
             const btn = document.getElementById('btn-apply');
-            const container = document.getElementById('matches-container');
-            
             const type = document.getElementById('type-filter').value;
-            const comp = document.getElementById('league-filter').value;
+            const league = document.getElementById('league-filter').value;
+            const date = document.getElementById('date-filter').value;
             const goliath = document.getElementById('goliath-filter').checked;
             const location = document.getElementById('location-filter').value;
 
-            btn.classList.add('loading');
-            document.getElementById('status-text').textContent = "Analyzing data...";
-
-            let url = `${API_URL}/matches?`;
+            btn.disabled = true;
+            let url = `${API_URL}/${currentTab}?`;
             if (type) url += `type=${type}&`;
-            if (comp) url += `competition=${encodeURIComponent(comp)}&`;
-            if (goliath) url += `goliath=true&`;
-            if (location === "true") url += `goliath_home=true&`;
-            if (location === "false") url += `goliath_away=true&`;
+            if (league) url += `competition=${encodeURIComponent(league)}&`;
+            if (date) url += `date=${date}&`;
+            if (currentTab === 'matches') {
+                if (goliath) url += `goliath=true&`;
+                if (location === "true") url += `goliath_home=true&`;
+                if (location === "false") url += `goliath_away=true&`;
+            }
 
             try {
                 const res = await fetch(url);
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                const matches = await res.json();
-
-                if (!type && !comp && !goliath && !location) {
-                    allMatchesData = matches;
-                    updateCompetitionDropdown();
+                const data = await res.json();
+                
+                if (currentTab === 'matches') renderGroupedMatches(data);
+                else renderGroupedCorners(data);
+                
+                // Update leagues for dropdown if not filtered
+                if (!type && !league) {
+                   const comps = [...new Set(data.map(m => m.league_name))].sort();
+                   const select = document.getElementById('league-filter');
+                   const current = select.value;
+                   select.innerHTML = '<option value="">All Leagues</option>';
+                   comps.forEach(c => {
+                       const opt = document.createElement('option');
+                       opt.value = c; opt.textContent = c;
+                       if (c === current) opt.selected = true;
+                       select.appendChild(opt);
+                   });
                 }
-
-                if (matches.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">📭</div>
-                            <h3>No Matches Found</h3>
-                            <p>Try adjusting your analysis filters or broadening your search.</p>
-                        </div>
-                    `;
-                    document.getElementById('status-text').textContent = "No results found";
-                } else {
-                    renderGroupedMatches(matches);
-                    document.getElementById('status-text').textContent = `Live Analysis: ${matches.length} matches`;
-                }
-            } catch (err) {
-                showNotification(`Connection Error: ${err.message}`, 'error');
-                document.getElementById('status-text').textContent = "API Error";
-                document.getElementById('status-dot').style.background = "var(--error)";
-            } finally {
-                btn.classList.remove('loading');
-            }
+            } catch (e) { console.error(e); }
+            finally { btn.disabled = false; }
         }
 
         function renderGroupedMatches(matches) {
-            const container = document.getElementById('matches-container');
+            const container = document.getElementById('content-area');
             const groups = {};
             matches.forEach(m => {
-                const key = m.league_id || 'unknown';
-                if (!groups[key]) groups[key] = { name: m.league_name, matches: [] };
-                groups[key].matches.push(m);
+                if (!groups[m.league_name]) groups[m.league_name] = [];
+                groups[m.league_name].push(m);
             });
 
-            container.innerHTML = Object.keys(groups).sort().map(code => {
-                const g = groups[code];
-                const flag = FLAGS[code] || FLAGS.default;
-                return `
-                    <div class="league-group">
-                        <div class="league-header">
-                            <span class="league-flag">${flag}</span>
-                            <span class="league-name">${g.name}</span>
-                            <span class="match-count-badge">${g.matches.length}</span>
-                        </div>
-                        <div class="matches-grid">
-                            ${g.matches.map(m => renderCard(m)).join('')}
-                        </div>
+            container.innerHTML = Object.keys(groups).sort().map(name => `
+                <div class="league-group">
+                    <div class="league-header">
+                        <span class="league-name">${name}</span>
+                        <span class="match-count-badge">${groups[name].length}</span>
                     </div>
-                `;
-            }).join('');
+                    <div class="matches-grid">
+                        ${groups[name].map(m => renderMatchCard(m)).join('')}
+                    </div>
+                </div>
+            `).join('');
         }
 
-        function renderCard(m) {
-            const isGoliath = m.is_goliath_vs_david;
-            const homeGoliath = m.goliath_team === 'home';
-            const awayGoliath = m.goliath_team === 'away';
-
+        function renderMatchCard(m) {
             return `
-                <div class="match-card ${isGoliath ? 'goliath' : ''}">
+                <div class="match-card ${m.is_goliath_vs_david ? 'goliath' : ''}">
                     <div class="card-top">
                         <span class="matchday">Matchday ${m.matchday || '—'}</span>
-                        <span class="match-type ${m.competition_type === 'CUP' ? 'cup' : ''}">
-                            ${m.competition_type || 'LEAGUE'} • ${m.status}
-                        </span>
+                        <span class="match-type ${m.competition_type === 'CUP' ? 'cup' : ''}">${m.competition_type || 'LEAGUE'} • ${m.status}</span>
                     </div>
-
                     <div class="teams-container">
                         <div class="team-row">
-                            <div class="team-info">
-                                <span class="team-name">${m.home_team}${homeGoliath ? '<span class="goliath-tag">GOLIATH</span>' : ''}</span>
-                            </div>
+                            <span class="team-name">${m.home_team}${m.goliath_team === 'home' ? '<span class="goliath-tag">GOLIATH</span>' : ''}</span>
                             <span class="rank-pill">Rank <strong>#${m.rank_home ?? '—'}</strong></span>
                         </div>
                         <div class="team-row">
-                            <div class="team-info">
-                                <span class="team-name">${m.away_team}${awayGoliath ? '<span class="goliath-tag">GOLIATH</span>' : ''}</span>
-                            </div>
+                            <span class="team-name">${m.away_team}${m.goliath_team === 'away' ? '<span class="goliath-tag">GOLIATH</span>' : ''}</span>
                             <span class="rank-pill">Rank <strong>#${m.rank_away ?? '—'}</strong></span>
                         </div>
                     </div>
-
                     <div class="stats-box">
                         <div class="stat-group">
                             <span class="stat-title">Home Average</span>
@@ -637,16 +325,107 @@
                             <div class="stat-line"><span>Ag.</span><span class="stat-val">${(m.away_avg_goals_against ?? 0).toFixed(2)}</span></div>
                         </div>
                     </div>
-
                     <div class="card-footer">
-                        <span>🕐 ${new Date(m.date).toLocaleString([], {weekday:'short', day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'})}</span>
-                        <span style="font-weight:700; letter-spacing:1px; font-size:0.65rem; color:var(--accent);">ID: ${m.fixture_id}</span>
+                        <span>🕐 ${new Date(m.date).toLocaleString()}</span>
+                        <span style="color:var(--accent); font-weight:700">ID: ${m.fixture_id}</span>
                     </div>
                 </div>
             `;
         }
 
-        window.addEventListener('DOMContentLoaded', fetchMatches);
+        function renderGroupedCorners(corners) {
+            const container = document.getElementById('content-area');
+            const groups = {};
+            corners.forEach(c => {
+                if (!groups[c.league_name]) groups[c.league_name] = [];
+                groups[c.league_name].push(c);
+            });
+
+            container.innerHTML = Object.keys(groups).sort().map(name => `
+                <div class="league-group">
+                    <div class="league-header">
+                        <span class="league-name">${name}</span>
+                        <span class="match-count-badge">${groups[name].length}</span>
+                    </div>
+                    <div class="matches-grid">
+                        ${groups[name].map(c => renderCornerCard(c)).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderCornerCard(c) {
+            const p = c.prediction;
+            const signal = p.pace.classification === 'HIGH' ? 'HIGH TEMPO' : (p.expected_total_corners > 10.5 ? 'HIGH EXPECTATION' : 'BALANCED');
+            const signalColor = p.pace.classification === 'HIGH' ? 'var(--accent)' : (p.expected_total_corners > 10.5 ? 'var(--success)' : 'var(--border)');
+            
+            return `
+                <div class="match-card">
+                    <div class="card-top">
+                        <span class="matchday">Expected Total: <strong>${p.expected_total_corners}</strong></span>
+                        <span class="match-type" style="background:${signalColor}; color:white; padding: 0.2rem 0.6rem">${signal}</span>
+                    </div>
+                    
+                    <div class="teams-container">
+                        <div class="team-row">
+                            <span class="team-name">${c.home_team}</span>
+                            <span class="rank-pill">L5 Form: <strong>${p.form.home_last5}</strong></span>
+                        </div>
+                        <div class="team-row">
+                            <span class="team-name">${c.away_team}</span>
+                            <span class="rank-pill">L5 Form: <strong>${p.form.away_last5}</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="stats-box">
+                        <div class="stat-group">
+                            <span class="stat-title">Market Probabilities</span>
+                            <div class="stat-line"><span>Over 8.5</span><span class="stat-val">${(p.probabilities.over_8_5*100).toFixed(0)}%</span></div>
+                            <div class="stat-line"><span>Over 9.5</span><span class="stat-val">${(p.probabilities.over_9_5*100).toFixed(0)}%</span></div>
+                            <div class="stat-line"><span>Over 10.5</span><span class="stat-val">${(p.probabilities.over_10_5*100).toFixed(0)}%</span></div>
+                        </div>
+                        <div class="stat-group">
+                            <span class="stat-title">Match Pace Index</span>
+                            <div class="pace-bar-bg"><div class="pace-bar-fill" style="width:${p.pace.pace_score*100}%"></div></div>
+                            <div class="stat-line"><span style="font-size:0.6rem; font-weight:800">${p.pace.classification} TEMPO</span></div>
+                            <div class="stat-line" style="margin-top:0.5rem"><span>1H Exp:</span><span class="stat-val">${p.expected_first_half_corners}</span></div>
+                        </div>
+                    </div>
+
+                    <div class="early-game-box">
+                        <div class="stat-line" style="font-size:0.7rem; font-weight:800; color:var(--amber); margin-bottom:0.5rem">
+                            EARLY MARKETS <span class="inferred-tag">INFERRED</span>
+                        </div>
+                        <div class="sub-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem">
+                            <div class="stat-group">
+                                <span class="stat-title" style="font-size:0.6rem">0-10m Prob</span>
+                                <span class="stat-val" style="color:var(--amber)">${(p.early_markets.p_0_10*100).toFixed(0)}%</span>
+                            </div>
+                            <div class="stat-group">
+                                <span class="stat-title" style="font-size:0.6rem">0-20m Prob</span>
+                                <span class="stat-val" style="color:var(--amber)">${(p.early_markets.p_0_20*100).toFixed(0)}%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <span>Context: <strong>${p.context.classification}</strong></span>
+                        <span style="color:var(--accent); font-weight:700">Mismatch: ${p.context.mismatch_score}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const select = document.getElementById('date-filter');
+            const now = new Date();
+            for(let i=0; i<7; i++) {
+                const d = new Date(now); d.setDate(now.getDate()+i);
+                const iso = d.toISOString().split('T')[0];
+                const opt = document.createElement('option'); opt.value = iso; opt.textContent = iso; select.appendChild(opt);
+            }
+            fetchData();
+        });
     </script>
 </body>
 </html>

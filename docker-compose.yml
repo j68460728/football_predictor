@@ -16,6 +16,18 @@ services:
         condition: service_completed_successfully
     restart: "no"
 
+  corners_engine:
+    build: ./services/corners_engine
+    env_file:
+      - .env
+    volumes:
+      - ./shared/data:/app/shared/data
+      - ./shared/mappings:/app/shared/mappings
+    depends_on:
+      engine:
+        condition: service_completed_successfully
+    restart: "no"
+
   api:
     build: ./services/api
     ports:
@@ -23,7 +35,7 @@ services:
     volumes:
       - ./shared/data:/app/shared/data
     depends_on:
-      engine:
+      corners_engine:
         condition: service_completed_successfully
     restart: always
 
