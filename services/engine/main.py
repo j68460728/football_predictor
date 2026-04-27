@@ -9,6 +9,7 @@ def calculate_flags(match):
     
     if rank_home is None or rank_away is None:
         match['is_goliath_vs_david'] = False
+        match['goliath_team'] = None
         return match
     
     # Goliath vs David Logic:
@@ -20,18 +21,26 @@ def calculate_flags(match):
     
     match['is_goliath_vs_david'] = is_goliath_vs_david
     
-    # Identify who is the Goliath
-    match['goliath_team'] = "home" if rank_home <= 4 else ("away" if rank_away <= 4 else None)
+    # Identify who is the Goliath: "home" | "away"
+    if is_goliath_vs_david:
+        match['goliath_team'] = "home" if rank_home <= 4 else "away"
+    else:
+        match['goliath_team'] = None
     
     return match
 
 def main():
+    # Robustness: Validate existence of matches.json
     if not os.path.exists(DATA_PATH):
-        print(f"File {DATA_PATH} not found. Skipping engine.")
+        print(f"ERROR: {DATA_PATH} not found. Engine cannot process.")
         return
         
-    with open(DATA_PATH, "r") as f:
-        matches = json.load(f)
+    try:
+        with open(DATA_PATH, "r") as f:
+            matches = json.load(f)
+    except (json.JSONDecodeError, IOError) as e:
+        print(f"ERROR: Could not read {DATA_PATH}: {e}")
+        return
         
     processed_matches = [calculate_flags(m) for m in matches]
     

@@ -250,7 +250,8 @@
             let url = `${API_URL}/matches?`;
             if (league) url += `league=${league}&`;
             if (goliath) url += `goliath=true&`;
-            if (home !== "") url += `home=${home}&`;
+            if (home === "true") url += `goliath_home=true&`;
+            if (home === "false") url += `goliath_away=true&`;
 
             try {
                 const response = await fetch(url);

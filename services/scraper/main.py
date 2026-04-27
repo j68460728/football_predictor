@@ -32,7 +32,18 @@ def main():
             home_stats = client.get_team_statistics(league_id, home_id, season)
             away_stats = client.get_team_statistics(league_id, away_id, season)
             
+            # 1. Scraper Robustness: Discard matches without stats
+            if not home_stats or not away_stats:
+                print(f"    Skipping match: Missing statistics.")
+                continue
+                
             match_data = transform_match_data(fixture, standings, home_stats, away_stats)
+            
+            # 1. Scraper Robustness: Discard matches without standings
+            if match_data.get('rank_home') is None or match_data.get('rank_away') is None:
+                print(f"    Skipping match: Missing standings.")
+                continue
+
             all_matches.append(match_data)
             
     # Ensure directory exists
